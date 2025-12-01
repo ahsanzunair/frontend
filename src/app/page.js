@@ -24,7 +24,6 @@ export default function Home() {
       </div>
     );
   };
-
   return (
     <>
       <Navbar />
@@ -56,6 +55,63 @@ export default function Home() {
           salary="Rs 100,000 - 150,000"
           type="On-Site"
         />
+
+        <JobCard
+          title="React Developer"
+          company="TechNova"
+          location="Lahore, Pakistan"
+          salary="Rs 130,000 - 170,000"
+          type="Full Time"
+        />
+
+        <JobCard
+          title="UI/UX Designer"
+          company="Creative Studio"
+          location="Karachi, Pakistan"
+          salary="Rs 110,000 - 160,000"
+          type="Remote"
+        />
+
+        <JobCard
+          title="Node.js Developer"
+          company="CodeWave"
+          location="Islamabad, Pakistan"
+          salary="Rs 140,000 - 190,000"
+          type="Full Time"
+        />
+
+        <JobCard
+          title="Full Stack Developer"
+          company="WebSoft"
+          location="Lahore, Pakistan"
+          salary="Rs 160,000 - 220,000"
+          type="On-Site"
+        />
+
+        <JobCard
+          title="Data Analyst"
+          company="Analytics Pro"
+          location="Karachi, Pakistan"
+          salary="Rs 125,000 - 175,000"
+          type="Remote"
+        />
+
+        <JobCard
+          title="DevOps Engineer"
+          company="CloudTech"
+          location="Islamabad, Pakistan"
+          salary="Rs 150,000 - 200,000"
+          type="Full Time"
+        />
+
+        <JobCard
+          title="Mobile Developer"
+          company="AppWorks"
+          location="Lahore, Pakistan"
+          salary="Rs 135,000 - 185,000"
+          type="Remote"
+        />
+
       </div>
     </>
   );
