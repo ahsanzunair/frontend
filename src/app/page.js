@@ -26,7 +26,6 @@ export default function Home() {
   };
   return (
     <>
-      <Navbar />
 
       <div className="p-6">
         <h1 className="text-3xl font-bold">Welcome to Job Portal</h1>
