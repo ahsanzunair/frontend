@@ -4,11 +4,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import profileImg from "@/assets/profile_img_3.png"
-import { users } from "@/app/data/users";
 
 const Profile = () => {
-
-    users.role = "Job Seeker"
 
     const [user, setUser] = useState({
         fullName: "Haris Zeeshan",
@@ -16,7 +13,7 @@ const Profile = () => {
         phone: "03021234567",
         city: "Lahore",
         skills: ["React", "Node.js", "Tailwind"],
-        role: "JobSeeker",
+        role: "Job Seeker",
         resumeLink: "https://example.com/resume.pdf",
         avatarUrl: profileImg
     });
@@ -35,19 +32,20 @@ const Profile = () => {
         e.preventDefault();
         setUser(formData);
         setIsModalOpen(false);
+        toast.success("Updated Successfully");
     };
 
     return (
         <div className="max-w-4xl mx-auto p-6 px-10 bg-white rounded-lg shadow-lg mt-10" >
 
-            < div className="flex flex-col sm:flex-row items-center gap-6 mb-6" >
+            <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
                 {
                     user.avatarUrl ? (
                         <Image
                             src={user.avatarUrl}
                             alt="Avatar"
-                            height = {112}
-                            width = {112}
+                            height={112}
+                            width={112}
                             className="rounded-full object-cover border-2 border-gray-300"
                         />
                     ) : (
@@ -55,13 +53,13 @@ const Profile = () => {
                     )
                 }
 
-                < div >
+                <div>
                     <h1 className="text-2xl font-semibold text-gray-800">{user.fullName}</h1>
-                </div >
+                </div>
             </div >
 
 
-            < div className="grid grid-cols-1 sm:grid-cols-2  gap-4 mb-6" >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div className="flex items-center  justify-start gap-1">
                     <p className="text-black font-bold  ">Email:</p>
                     <p className="text-gray-900 font-medium">{user.email}</p>
@@ -76,7 +74,7 @@ const Profile = () => {
                 </div>
                 <div className="flex items-center  justify-start gap-1">
                     <p className="text-black font-bold">Role:</p>
-                    <p className="text-gray-900 font-medium">{users.role}</p>
+                    <p className="text-gray-900 font-medium">{user.role}</p>
                 </div>
                 <div className="flex items-center  justify-start gap-1">
                     <p className="text-black font-bold">Skills:</p>
@@ -93,15 +91,15 @@ const Profile = () => {
                         View Resume
                     </a>
                 </div>
-            </div >
+            </div>
 
 
-            < button
+            <button
                 onClick={() => setIsModalOpen(true)}
-                className=" flex items-center justify-center sm:justify-start px-6 py-2 bg-blue-500 text-white rounded-lg  hover:bg-blue-600 transition-colors duration-300 "
+                className="flex items-center justify-center sm:justify-start px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300"
             >
                 Edit Profile
-            </button >
+            </button>
 
 
 
@@ -201,7 +199,6 @@ const Profile = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    onClick={() => toast.success("Updated Successfully")}
                                     className="px-5 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
                                 >
                                     Save
@@ -212,7 +209,7 @@ const Profile = () => {
                 </div>
             )}
 
-        </div >
+        </div>
     );
 };
 

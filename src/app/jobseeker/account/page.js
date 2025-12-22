@@ -61,7 +61,7 @@ const Profile = () => {
             </div >
 
 
-            < div className="grid grid-cols-1 sm:grid-cols-2  gap-4 mb-6" >
+            <div className="grid grid-cols-1 sm:grid-cols-2  gap-4 mb-6">
                 <div className="flex items-center  justify-start gap-1">
                     <p className="text-black font-bold  ">Email:</p>
                     <p className="text-gray-900 font-medium">{user.email}</p>
