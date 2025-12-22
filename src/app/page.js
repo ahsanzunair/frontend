@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -382,3 +383,122 @@ const JobsPage = () => {
 }
 
 export default JobsPage
+=======
+import Navbar from "@/components/Navbar";
+import Image from "next/image";
+
+export default function Home() {
+  const JobCard = ({ title, company, location, salary, type }) => {
+    return (
+      <div className="border rounded-xl p-5 shadow-sm hover:shadow-md transition bg-white">
+        <h2 className="text-xl font-semibold">{title}</h2>
+
+        <p className="text-gray-600 mt-1">{company}</p>
+
+        <div className="flex items-center gap-3 text-sm text-gray-500 mt-2">
+          <span>{location}</span>
+          <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
+            {type}
+          </span>
+        </div>
+
+        <p className="text-green-600 font-medium mt-3">{salary}</p>
+
+        <button className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+          Apply Now
+        </button>
+      </div>
+    );
+  };
+  return (
+    <>
+
+      <div className="p-6">
+        <h1 className="text-3xl font-bold">Welcome to Job Portal</h1>
+      </div>
+      <div className="max-w-5xl mx-auto p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
+        <JobCard
+          title="Frontend Developer"
+          company="Google"
+          location="Lahore, Pakistan"
+          salary="Rs 150,000 - 200,000"
+          type="Full Time"
+        />
+
+        <JobCard
+          title="Backend Engineer"
+          company="Systems Ltd"
+          location="Karachi, Pakistan"
+          salary="Rs 120,000 - 180,000"
+          type="Remote"
+        />
+
+        <JobCard
+          title="Django Developer"
+          company="Mindstorm Studios"
+          location="Islamabad, Pakistan"
+          salary="Rs 100,000 - 150,000"
+          type="On-Site"
+        />
+
+        <JobCard
+          title="React Developer"
+          company="TechNova"
+          location="Lahore, Pakistan"
+          salary="Rs 130,000 - 170,000"
+          type="Full Time"
+        />
+
+        <JobCard
+          title="UI/UX Designer"
+          company="Creative Studio"
+          location="Karachi, Pakistan"
+          salary="Rs 110,000 - 160,000"
+          type="Remote"
+        />
+
+        <JobCard
+          title="Node.js Developer"
+          company="CodeWave"
+          location="Islamabad, Pakistan"
+          salary="Rs 140,000 - 190,000"
+          type="Full Time"
+        />
+
+        <JobCard
+          title="Full Stack Developer"
+          company="WebSoft"
+          location="Lahore, Pakistan"
+          salary="Rs 160,000 - 220,000"
+          type="On-Site"
+        />
+
+        <JobCard
+          title="Data Analyst"
+          company="Analytics Pro"
+          location="Karachi, Pakistan"
+          salary="Rs 125,000 - 175,000"
+          type="Remote"
+        />
+
+        <JobCard
+          title="DevOps Engineer"
+          company="CloudTech"
+          location="Islamabad, Pakistan"
+          salary="Rs 150,000 - 200,000"
+          type="Full Time"
+        />
+
+        <JobCard
+          title="Mobile Developer"
+          company="AppWorks"
+          location="Lahore, Pakistan"
+          salary="Rs 135,000 - 185,000"
+          type="Remote"
+        />
+
+      </div>
+    </>
+  );
+}
+>>>>>>> f749a46fd1b7c36ef3d95f28f205de872598b59e
