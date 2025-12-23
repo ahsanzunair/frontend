@@ -23,7 +23,7 @@ import {
 const COLORS = ["#4f46e5", "#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"];
 
 const Dashboard = () => {
-    const totalEmployers = users.filter(user => user.role.toLowerCase === "employer").length
+    const totalEmployers = users.filter(user => user.role === "employer").length
     const activeJobs = users.filter(user => user.status === "Active").length
     const DASHBOARD_STATS = [
     { title: "Total Users", value: users.length },

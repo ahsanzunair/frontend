@@ -4,9 +4,8 @@ export default function RootLayout({ children }) {
     return (
 
         <>
-            <div>
-                <JobsNav />
-            </div>
+
+            <JobsNav />
             {children}
         </>
     );
