@@ -27,7 +27,7 @@ export default function EmployerDasboard() {
                 <div className="main-content">
                     <div className="dashboard-header">
                         <h2 className="text-4xl md:text-3xl">Dashboard</h2>
-                        <p className="welcome-text">Welcome back! Here's your hiring overview.</p>
+                        <p className="welcome-text">Welcome back! Here&apos;s your hiring overview.</p>
                     </div>
 
                     <div className="stats-container">

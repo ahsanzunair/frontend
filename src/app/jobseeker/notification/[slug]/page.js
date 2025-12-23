@@ -1,13 +1,12 @@
-<<<<<<< HEAD
 import { notifications } from "@/app/data/notifications";
 import Link from "next/link";
-// import { useLocation } from "react-router-dom";
 
 const NotificationDetail = async({params}) => {
 
   const {slug} = await params
   const n = notifications.find(n => n.slug === slug)
 
+  
     return (
         <div className="max-w-3xl mx-auto p-4">
             <Link
@@ -31,14 +30,3 @@ const NotificationDetail = async({params}) => {
 };
 
 export default NotificationDetail;
-=======
-import React from 'react'
-
-const page = () => {
-  return (
-    <div>Notification Detail Page</div>
-  )
-}
-
-export default page
->>>>>>> f749a46fd1b7c36ef3d95f28f205de872598b59e

@@ -1,13 +1,14 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function NotificationList() {
-    const [notifications, setNotifications] = useState([]);
-
-    useEffect(() => {
-        const stored = JSON.parse(localStorage.getItem("notifications")) || [];
-        setNotifications(stored);
-    }, []);
+    const [notifications, setNotifications] = useState(() => {
+        try {
+            return JSON.parse(localStorage.getItem("notifications")) || [];
+        } catch (e) {
+            return [];
+        }
+    });
 
     const markAsRead = (id) => {
         const updated = notifications.map((n) =>

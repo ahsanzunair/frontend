@@ -5,6 +5,7 @@ import {
 } from "react-icons/fa";
 import { FaLocationDot, FaSquareWhatsapp } from "react-icons/fa6";
 import { IoMdMail } from "react-icons/io";
+import Image from "next/image";
 import logo  from '@/assets/images/logo.png'
 import Link from "next/link";
 
@@ -16,7 +17,7 @@ const Footer = () => {
                 {/* Brand Info */}
                 <div className="flex flex-col items-center md:items-start text-center md:text-left w-full">
                     <Link href="/" className="cursor-pointer">
-                        <img src={logo} alt="JobsWalay Logo" className="w-32" />
+                        <Image src={logo} alt="JobsWalay Logo" width={128} height={128} className="w-32" />
                     </Link>
 
                     <p className="mt-3 text-sm sm:text-base text-gray-800">
