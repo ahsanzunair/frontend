@@ -51,7 +51,7 @@ const JobsPage = () => {
                 </div>
 
                 <div style={{ background: "#174961",
-                     padding: "clamp(15px, 3vw, 20px)", borderRadius: "10px", marginBottom: "25px", border: "1px solid rgba(220, 38, 38, 0.3)", boxShadow: "0 4px 16px rgba(220, 38, 38, 0.2)" }}>
+                     padding: "clamp(15px, 3vw, 20px)", borderRadius: "10px", marginBottom: "25px", border: "1px solid #1A4767" }}>
                     <div style={{ display: "flex", alignItems: "stretch", gap: "10px", flexWrap: "wrap", marginBottom: "15px" }}>
                         <input
                             type="text"
@@ -235,19 +235,17 @@ const JobsPage = () => {
                                     background: "white",
                                     borderRadius: "15px",
                                     overflow: "auto",
-                                    boxShadow: "0 8px 24px rgba(220, 38, 38, 0.2)",
-                                    border: "1px solid rgba(220, 38, 38, 0.3)",
+                                    // boxShadow: "0 8px 24px rgba(220, 38, 38, 0.2)",
+                                    border: "1px solid #1A4767",
                                     transition: "transform 0.3s ease, box-shadow 0.3s ease",
                                     display: "flex",
                                     flexDirection: "column"
                                 }}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = "translateY(-5px)";
-                                    e.currentTarget.style.boxShadow = "0 12px 32px rgba(220, 38, 38, 0.4)";
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.transform = "translateY(0)";
-                                    e.currentTarget.style.boxShadow = "0 8px 24px rgba(220, 38, 38, 0.2)";
                                 }}
                             >
                                 <div style={{
@@ -332,7 +330,7 @@ const JobsPage = () => {
                                             fontWeight: "600",
                                             cursor: "pointer",
                                             transition: "all 0.3s ease",
-                                            boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)"
+                                            // boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)"
                                         }}
                                        
                                         >

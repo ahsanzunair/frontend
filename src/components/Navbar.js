@@ -1,16 +1,32 @@
+'use client'
 import Link from "next/link";
 import Image from "next/image";
-import logo  from '@/assets/images/logo.png'
+import logo from '@/assets/images/logo.png'
 import { FaBars, FaHome } from "react-icons/fa";
+import { useEffect, useState } from "react";
+
 
 const Navbar = () => {
-    const role = "admin";
+    const [role, setRole] = useState("admin")
 
+
+    useEffect(() => {
+        const savedRole = localStorage.getItem("role")
+        if (savedRole){
+            setRole(savedRole)
+        }
+    }, [])
+
+    const handleRoleChange = ((e) => {
+        const newRole = e.target.value;
+        setRole(newRole);
+        localStorage.setItem("role", newRole);
+    })
     const menusForGuest = [
-        { title: <FaHome size={30} />, link: "#" },
-        { title: "About", link: "/about" },
-        { title: "Login", link: "/login" },
-        { title: "Register", link: "/register" }
+        { title: <FaHome size={30} />, link: "/" },
+        { title: "About", link: "/guest/about" },
+        { title: "Create Account", link: "/auth" },
+        // { title: "Register", link: "/auth/register" }
     ]
     const menusForJobSeeker = [
         { title: "Home", link: "/" },
@@ -32,7 +48,7 @@ const Navbar = () => {
         { title: "Jobs", link: "/admin/jobs" },
         { title: "Users", link: "/admin/users" },
         { title: "Notification", link: "/admin/notification" },
-        { title: "All Notifications", link: "/admin/notification/notification-list " },
+        { title: "All Notifications", link: "/admin/notification/notification-list" },
         { title: "Account", link: "/admin/account" }
     ]
 
@@ -51,17 +67,29 @@ const Navbar = () => {
                     <Image className='rounded-full' src={logo} alt='logo not found' />
                 </Link>
                 <div id='navMenus' className="hidden md:flex gap-6">
-                    {menus.map((item, index) => (
-                        <ul key={index}>
-                            <li>
-                                <Link href={item.link} className="text-grey-900 hover:bg-[#114A69] hover:text-white hover:p-2 hover:rounded-lg hover:font-bold transition-all transform duration-300 font-medium">
+                    <ul className="flex gap-6 items-center">
+                        {menus.map((item, index) => (
+                            <li key={index}>
+                                <Link href={item.link} className="text-gray-900 hover:bg-[#114A69] hover:text-white hover:p-2 hover:rounded-lg hover:font-bold transition-all transform duration-300 font-medium">
                                     {item.title}
                                 </Link>
                             </li>
-                        </ul>
-                    ))}
+                        ))}
+                    </ul>
                 </div>
-                <div className="flex flex-col justify-center items-center py-5">
+                <div className="flex gap-3 justify-center items-center py-5">
+                    <div className="flex flext-col items-center">
+                        <select 
+                        value={role}
+                        onChange={handleRoleChange}
+                        className="p-2 rounded-lg bg-[#1A4767] text-white font-semibold"
+                        >
+                            <option value="guest">Guest</option>
+                            <option value="jobseeker">Job Seeker</option>
+                            <option value="employer">Epmloyer</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
                     <h3 className="text-md font-semibold text-white p-2 rounded-lg bg-[#1A4767] transition transform duration-300">{role}</h3>
                 </div>
                 <div className='cursor-pointer text-2xl block md:hidden'>
