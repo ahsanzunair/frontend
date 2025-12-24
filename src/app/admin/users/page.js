@@ -26,8 +26,8 @@ export default function EmployerusersList() {
   const stats = {
     total: users.length,
     active: users.filter(j => j.status === "Active").length,
-    draft: users.filter(j => j.status === "Draft").length,
-    closed: users.filter(j => j.status === "Closed").length
+    Bolcked: users.filter(j => j.status === "Blocked").length,
+    // closed: users.filter(j => j.status === "Closed").length
   };
 
   const handleDelete = (userId) => {
@@ -39,7 +39,7 @@ export default function EmployerusersList() {
   const handleStatusToggle = (userId) => {
     setusers(users.map(user => {
       if (user.id === userId) {
-        const nextStatus = user.status === "Active" ? "Closed" : "Active";
+        const nextStatus = user.status === "Active" ? "Blocked" : "Active";
         return { ...user, status: nextStatus };
       }
       return user;
@@ -104,8 +104,7 @@ export default function EmployerusersList() {
               >
                 <option value="All">All users</option>
                 <option value="Active">Active</option>
-                <option value="Draft">Drafts</option>
-                <option value="Closed">Closed</option>
+                <option value="Blocked">Blocked</option>
               </select>
             </div>
           </div>
