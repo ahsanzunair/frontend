@@ -49,9 +49,9 @@ const Footer = () => {
                     <h2 className="font-semibold text-black mb-5">Company</h2>
                     <ul className="flex flex-col gap-3 text-xl sm:text-base text-gray-900">
                         <li><Link href="/" className="hover:text-blue-400 transition">Home</Link></li>
-                        <li><Link href="/aboutus" className="hover:text-blue-400 transition">About Us</Link></li>
-                        <li><Link href="/jobs" className="hover:text-blue-400 transition">Find Jobs</Link></li>
-                        <li><Link href="/contact" className="hover:text-blue-400 transition">Contact Us</Link></li>
+                        <li><Link href="/guest/about" className="hover:text-blue-400 transition">About Us</Link></li>
+                        <li><Link href="/" className="hover:text-blue-400 transition">Find Jobs</Link></li>
+                        <li><Link href="#" className="hover:text-blue-400 transition">Contact Us</Link></li>
                         
                     </ul>
                 </div>

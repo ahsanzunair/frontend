@@ -23,7 +23,7 @@ const JobsPage = () => {
     const filteredJobs = jobs.filter(job => {
         const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            job.skills.toLowerCase().includes(searchTerm.toLowerCase());
+            job.skills().includes(searchTerm.toLowerCase());
 
         const matchesLocation = locationFilter === "all" || job.location === locationFilter;
         const matchesType = typeFilter === "all" || job.type === typeFilter;

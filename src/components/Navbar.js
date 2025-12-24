@@ -61,7 +61,7 @@ const Navbar = () => {
     if (role === "admin") menus = menusForAdmin
 
     return (
-        <nav className='w-full bg-white shadow-md'>
+        <nav className='sticky top-0 w-full bg-white shadow-md z-20'>
             <div className='max-w-6xl h-20 mx-8 md:mx-auto flex items-center justify-between py-4'>
                 {/* logo */}
                 <Link href={'/'} className='md:flex none gap-5 items-center justify-center'>
