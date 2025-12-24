@@ -19,7 +19,7 @@ export default function EmployerusersList() {
 
   const filteredusers = users.filter(user => {
     if (activeFilter !== "All" && user.status !== activeFilter) return false;
-    if (searchQuery && !user.title.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    if (searchQuery && user.name.toLowerCase().includes(searchQuery.toLowerCase()) || user.email.toLowerCase().includes(searchQuery.toLowerCase())) return true;
     return true;
   });
 
