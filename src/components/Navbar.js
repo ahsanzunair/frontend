@@ -8,11 +8,12 @@ import { useEffect, useState } from "react";
 
 const Navbar = () => {
     const [role, setRole] = useState("admin")
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
 
     useEffect(() => {
         const savedRole = localStorage.getItem("role")
-        if (savedRole){
+        if (savedRole) {
             setRole(savedRole)
         }
     }, [])
@@ -79,10 +80,10 @@ const Navbar = () => {
                 </div>
                 <div className="flex gap-3 justify-center items-center py-5">
                     <div className="flex flext-col items-center">
-                        <select 
-                        value={role}
-                        onChange={handleRoleChange}
-                        className="p-2 rounded-lg bg-[#1A4767] text-white font-semibold"
+                        <select
+                            value={role}
+                            onChange={handleRoleChange}
+                            className="p-2 rounded-lg bg-[#1A4767] text-white font-semibold"
                         >
                             <option value="guest">Guest</option>
                             <option value="jobseeker">Job Seeker</option>
@@ -90,11 +91,27 @@ const Navbar = () => {
                             <option value="admin">Admin</option>
                         </select>
                     </div>
-                    <h3 className="text-md font-semibold text-white p-2 rounded-lg bg-[#1A4767] transition transform duration-300">{role}</h3>
+                    <h3 className="hidden md:block text-md font-semibold text-white p-2 rounded-lg bg-[#1A4767] transition transform duration-300">{role}</h3>
                 </div>
-                <div className='cursor-pointer text-2xl block md:hidden'>
+                <div onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className='cursor-pointer text-2xl block md:hidden'>
                     <FaBars />
                 </div>
+                { mobileMenuOpen && (
+                    <div className="absolute top-20 left-0 w-full bg-white shadow-md md:hidden">
+                        <ul className="flex flex-col gap-4 p-5">
+                            { menus.map((item, index) => (
+                                <li key={index}>
+                                    <Link href={item.link}
+                                    onClick={() => (setMobileMenuOpen(false))}
+                                    className="block text-gray-900 bg-white hover:bg-[#1A4767] hover:text-white px-4 py-2 rounded-lg transition font-medium"
+                                    >
+                                    {item.title}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
         </nav>
     )
