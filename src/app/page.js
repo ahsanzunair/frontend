@@ -7,12 +7,8 @@ import { jobs } from "@/app/data/jobs.js";
 
 
 const JobsPage = () => {
-    const { id } = useParams();
 
     const router = useRouter();
-    const JobDetailPage = () => {
-        navigate("/Jobs/Details/:id");
-    };
    
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -23,10 +19,10 @@ const JobsPage = () => {
     const filteredJobs = jobs.filter(job => {
         const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            job.skills().includes(searchTerm.toLowerCase());
+            job.skills.includes(searchTerm.toLowerCase());
 
         const matchesLocation = locationFilter === "all" || job.location === locationFilter;
-        const matchesType = typeFilter === "all" || job.type === typeFilter;
+        const matchesType = typeFilter === "all" || job.jobType === typeFilter;
 
         return matchesSearch && matchesLocation && matchesType;
     })
@@ -130,10 +126,12 @@ const JobsPage = () => {
                                 }}
                             >
                                 <option value="all">All Locations</option>
-                                <option value="Johar town Lahore">Lahore, Pakistan</option>
-                                <option value="Gulberg, Lahore">Islamabad, Pakistan</option>
-                                <option value="Model town Lahore">Karachi, Pakistan</option>
-                                <option value="Model town Lahore">Faislabad, Pakistan</option>
+                                <option value="Lahore, Pakistan">Lahore, Pakistan</option>
+                                <option value="Karachi, Pakistan">Karachi, Pakistan</option>
+                                <option value="Islamabad, Pakistan">Islamabad, Pakistan</option>
+                                <option value="Rawalpindi, Pakistan">Rawalpindi, Pakistan</option>
+                                <option value="Faisalabad, Pakistan">Faislabad, Pakistan</option>
+                                <option value="Multan, Pakistan">Multan, Pakistan</option>
                             </select>
                         </div>
 
@@ -156,10 +154,12 @@ const JobsPage = () => {
                             >
                                 <option value="all">All Types</option>
                                 <option value="Hybrid">Hybrid</option>
-                                <option value="Work from Home">Remote</option>
+                                <option value="Remote">Remote</option>
                                 <option value="Physical">Onsite</option>
-                                <option value="Physical">Part time</option>
-                                <option value="Physical">Internship</option>
+                                <option value="Full-time">Full time</option>
+                                <option value="Part-time">Part time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Internship">Internship</option>
                             </select>
                         </div>
 
