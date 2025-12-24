@@ -5,52 +5,6 @@ import { useRouter } from "next/navigation";
 import { jobs } from "@/app/data/jobs";
 
 export default function EmployerJobsList() {
-  // const [jobs, setJobs] = useState([
-  //   {
-  //     id: 1,
-  //     title: "Frontend Developer",
-  //     status: "Active",
-  //     applicants: 14,
-  //     location: "New York, NY",
-  //     salary: "$85,000 - $110,000",
-  //     postedDate: "2 days ago",
-  //     views: 245,
-  //     type: "Full-time"
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Backend Developer (Node.js)",
-  //     status: "Closed",
-  //     applicants: 10,
-  //     location: "Remote",
-  //     salary: "$95,000 - $125,000",
-  //     postedDate: "1 month ago",
-  //     views: 189,
-  //     type: "Full-time"
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "UI/UX Designer",
-  //     status: "Draft",
-  //     applicants: 0,
-  //     location: "San Francisco, CA",
-  //     salary: "$75,000 - $95,000",
-  //     postedDate: "Just now",
-  //     views: 0,
-  //     type: "Contract"
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "DevOps Engineer",
-  //     status: "Active",
-  //     applicants: 8,
-  //     location: "Austin, TX",
-  //     salary: "$100,000 - $135,000",
-  //     postedDate: "1 week ago",
-  //     views: 156,
-  //     type: "Full-time"
-  //   }
-  // ]);
 
   const router = useRouter()
   const [activeFilter, setActiveFilter] = useState("All");
@@ -163,15 +117,15 @@ export default function EmployerJobsList() {
               {/* Desktop / Tablet Table */}
               <div className="hidden lg:block bg-white rounded-xl border border-gray-200 overflow-x-auto shadow-sm">
                 <table className="min-w-full border-collapse">
-                  <thead className="bg-gray-50 border-b">
+                  <thead className="bg-[#1A4767] text-gray-100 border-b">
                     <tr>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Job Title</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Status</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Location</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Salary</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Applicants</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Views</th>
-                      <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">Actions</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">Job Title</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">Status</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">Location</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">Salary</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">Applicants</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">Views</th>
+                      <th className="px-6 py-4 text-right text-sm font-semibold">Actions</th>
                     </tr>
                   </thead>
                   <tbody>

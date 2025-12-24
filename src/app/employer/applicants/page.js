@@ -420,7 +420,7 @@ export default function Applicants() {
                 {/* Table (desktop) */}
                 {filteredApplicants.length > 0 ? (
                     <div className="overflow-x-auto">
-                        <table className="w-full border-collapse bg-white rounded-xl shadow-lg hidden md:table">
+                        <table className="w-full border-collapse bg-white rounded-full shadow-lg hidden md:table">
                             <thead className="bg-[#1A4767] text-white">
                                 <tr>
                                     <th className="px-4 py-3 text-left text-sm font-semibold border border-white">ID</th>
