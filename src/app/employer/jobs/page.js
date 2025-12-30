@@ -55,7 +55,7 @@ export default function EmployerJobsList() {
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Job Listings</h1>
             <p className="text-gray-600 mt-1">Manage and track your job postings</p>
           </div>
-          <button className="inline-flex items-center gap-2 px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition shadow-sm">
+          <button onClick={() => router.push(`/employer/jobpost`)} className="inline-flex items-center gap-2 px-4 py-3 bg-[#1A4767] text-white font-medium rounded-lg hover:bg-[#174961] transition shadow-sm">
             <Plus className="w-5 h-5" /> Create New Job
           </button>
         </div>
@@ -156,8 +156,7 @@ export default function EmployerJobsList() {
                         <td className="px-6 py-4 text-right">
                           <div className="flex justify-end gap-2">
                             <button className="p-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100"><Pencil className="w-4 h-4" /></button>
-                            <button className="p-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"><Users className="w-4 h-4" /></button>
-                            <button className="p-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100"><Eye className="w-4 h-4" /></button>
+                            <button onClick={() => router.push(`/jobs/job-details/${job.slug}`)} className="p-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100"><Eye className="w-4 h-4" /></button>
                             <button onClick={() => handleDelete(job.id)} className="p-2 bg-rose-50 text-rose-700 rounded-lg hover:bg-rose-100"><Trash2 className="w-4 h-4" /></button>
                           </div>
                         </td>
@@ -201,8 +200,7 @@ export default function EmployerJobsList() {
 
                     <div className="flex flex-wrap gap-2 mt-2">
                       <button onClick={() => router.push(`/employer/jobpost`)} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100"><Pencil className="w-4 h-4" /> Edit</button>
-                      <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"><Users className="w-4 h-4" /> View</button>
-                      <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100"><Eye className="w-4 h-4" /> Preview</button>
+                      <button onClick={() => router.push(`/jobs/job-details/${job.slug}`)} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100"><Eye className="w-4 h-4" /> Preview</button>
                       <button onClick={() => handleDelete(job.id)} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-rose-50 text-rose-700 rounded-lg hover:bg-rose-100"><Trash2 className="w-4 h-4" /> Delete</button>
                     </div>
                   </div>

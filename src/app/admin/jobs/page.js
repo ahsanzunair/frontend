@@ -201,8 +201,7 @@ export default function EmployerJobsList() {
 
                     <div className="flex flex-wrap gap-2 mt-2">
                       <button onClick={() => router.push(`/employer/jobpost`)} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100"><Pencil className="w-4 h-4" /> Edit</button>
-                      <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"><Users className="w-4 h-4" /> View</button>
-                      <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100"><Eye className="w-4 h-4" /> Preview</button>
+                      <button onClick={() => {router.push(`/jobdetail/${job.slug}`)}} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100"><Eye className="w-4 h-4" /> Preview</button>
                       <button onClick={() => handleDelete(job.id)} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-rose-50 text-rose-700 rounded-lg hover:bg-rose-100"><Trash2 className="w-4 h-4" /> Delete</button>
                     </div>
                   </div>

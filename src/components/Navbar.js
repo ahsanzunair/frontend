@@ -24,13 +24,14 @@ const Navbar = () => {
         localStorage.setItem("role", newRole);
     })
     const menusForGuest = [
-        { title: <FaHome size={30} />, link: "/" },
+        { title: "Home", link: "/" },
+        { title: "Jobs", link: "/jobs" },
         { title: "About", link: "/guest/about" },
         { title: "Create Account", link: "/auth" },
-        // { title: "Register", link: "/auth/register" }
     ]
     const menusForJobSeeker = [
         { title: "Home", link: "/" },
+        { title: "Jobs", link: "/jobs" },
         { title: "My Jobs", link: "/jobseeker/myjobs/saved" },
         { title: "Messages", link: "/jobseeker/messages" },
         { title: "Notification", link: "/jobseeker/notification" },
