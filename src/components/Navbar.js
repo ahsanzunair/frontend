@@ -27,6 +27,7 @@ const Navbar = () => {
         { title: "Home", link: "/" },
         { title: "Jobs", link: "/jobs" },
         { title: "About", link: "/guest/about" },
+        { title: "Contact Us", link: "/guest/contact-us" },
         { title: "Create Account", link: "/auth" },
     ]
     const menusForJobSeeker = [
