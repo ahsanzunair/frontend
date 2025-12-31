@@ -1,5 +1,6 @@
 import ExploreJobs from '@/components/home/ExploreJobs'
 import HeroSlider from '@/components/home/Hero'
+import HomejobsList from '@/components/HomejobsList'
 
 
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
         <div>
             <HeroSlider />
             <ExploreJobs />
+            <HomejobsList />
         </div>
     )
 }

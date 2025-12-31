@@ -1,6 +1,5 @@
 'use client'
 import { useState } from "react";
-
 import { FaClock } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { IoLogoWhatsapp } from "react-icons/io5";

@@ -4,6 +4,7 @@ import Image from "next/image";
 import logo from '@/assets/images/logo.png'
 import { FaBars, FaHome } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import AuthPage from "@/app/auth/page";
 
 
 const Navbar = () => {
@@ -93,27 +94,47 @@ const Navbar = () => {
                             <option value="admin">Admin</option>
                         </select>
                     </div>
-                    <h3 className="hidden md:block text-md font-semibold text-white p-2 rounded-lg bg-[#1A4767] transition transform duration-300">{role}</h3>
                 </div>
-                <div onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className='cursor-pointer text-2xl block md:hidden'>
+                <div onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className='cursor-pointer text-2xl md:hidden'>
                     <FaBars />
                 </div>
-                { mobileMenuOpen && (
-                    <div className="absolute top-20 left-0 w-full bg-white shadow-md md:hidden">
-                        <ul className="flex flex-col gap-4 p-5">
-                            { menus.map((item, index) => (
-                                <li key={index}>
-                                    <Link href={item.link}
-                                    onClick={() => (setMobileMenuOpen(false))}
-                                    className="block text-gray-900 bg-white hover:bg-[#1A4767] hover:text-white px-4 py-2 rounded-lg transition font-medium"
-                                    >
-                                    {item.title}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                {mobileMenuOpen && (
+                    <div
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="fixed inset-0 bg-black/20 backdrop-blur-xs z-40 md:hidden"
+                    />
                 )}
+
+
+                <div
+                    className={`fixed top-0 left-0 h-screen w-64 bg-white shadow-xl z-50
+        transform transition-transform duration-300
+        ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} md:hidden`}
+                >
+                    <div className="flex items-center justify-between p-4 border-b">
+                        <h2 className="text-lg font-bold text-[#1A4767]">Menu</h2>
+                        <button
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-2xl font-bold cursor-pointer"
+                        >
+                            ✕
+                        </button>
+                    </div>
+
+                    <ul className="flex flex-col gap-4 p-5">
+                        {menus.map((item, index) => (
+                            <li key={index}>
+                                <Link
+                                    href={item.link}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="block text-gray-900 hover:bg-[#1A4767] hover:text-white px-4 py-2 rounded-lg transition font-medium"
+                                >
+                                    {item.title}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </nav>
     )
