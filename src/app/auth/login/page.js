@@ -1,323 +1,254 @@
-'use client'
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, clearError, clearRedirect } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-const AuthPage = () => {
-    const [isLogin, setIsLogin] = useState(false);
-    const [isForgot, setIsForgot] = useState(false);
-    const [role, setRole] = useState("Job Seeker");
-    const [formData, setFormData] = useState({
-        fullName: "",
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        companyName: "",
-        companyWebsite: "",
-        companyAddress: "",
-        phone: "",
-        city: "",
-        skills: "",
-        resume: null,
-        otp: "",
-        newPassword: "",
-    });
+export default function LoginPage() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { user, loading, error, redirectTo } = useSelector((state) => state.auth);
 
-    const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: files ? files[0] : value,
-        }));
-    };
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
+  });
 
-        if (isForgot) {
-            // Forgot Password Flow
-            if (!formData.email) {
-                alert("Email is required");
-                return;
-            }
-            if (!formData.otp) {
-                alert("OTP is required");
-                return;
-            }
-            if (!formData.newPassword || formData.newPassword.length < 6) {
-                alert("New password must be at least 6 characters");
-                return;
-            }
-            alert(`Password reset successful for ${formData.email}`);
-            setIsForgot(false);
-            setIsLogin(true);
-            setFormData({
-                ...formData,
-                password: "",
-                confirmPassword: "",
-                otp: "",
-                newPassword: "",
-            });
-            return;
-        }
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-        if (isLogin) {
-            // Login Flow
-            if (!formData.email || !formData.password) {
-                alert("Email and Password required");
-                return;
-            }
-            alert(`Login simulated for ${formData.email}`);
-        } else {
-            // Register Flow
-            if (!formData.email) {
-                alert("Email is required");
-                return;
-            }
-            if (formData.password.length < 6) {
-                alert("Password must be at least 6 characters");
-                return;
-            }
-            if (formData.password !== formData.confirmPassword) {
-                alert("Passwords do not match");
-                return;
-            }
-            if (role === "Employer") {
-                alert("Employer account submitted! Pending approval.");
-            } else {
-                alert("Job Seeker account submitted!");
-            }
-        }
+  useEffect(() => {
+    dispatch(clearError());
+    
+    // Check if user is already logged in
+    const token = localStorage.getItem("accessToken");
+    if (token && user) {
+      router.push("/jobs");
+    }
+  }, [dispatch, router, user]);
 
-        setFormData({
-            fullName: "",
-            username: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-            companyName: "",
-            companyWebsite: "",
-            companyAddress: "",
-            phone: "",
-            city: "",
-            skills: "",
-            resume: null,
-            otp: "",
-            newPassword: "",
-        });
-    };
+  // Handle redirect from backend
+  useEffect(() => {
+    if (redirectTo) {
+      router.push(redirectTo);
+      dispatch(clearRedirect()); // Clear redirect after using it
+    }
+  }, [redirectTo, router, dispatch]);
 
-    return (
-        <div className="min-h-screen flex pt-20 items-center justify-center bg-gray-50 p-4">
-            <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-lg">
-                <h1 className="text-3xl font-bold mb-6 text-center">
-                    {isForgot
-                        ? "Reset Password"
-                        : isLogin
-                            ? "Login"
-                            : "Create an Account"}
-                </h1>
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Please enter a valid email address";
+    }
+    
+    if (!formData.password) {
+      errors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      errors.password = "Password must be at least 8 characters";
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    {!isLogin && !isForgot && (
-                        <input
-                            type="text"
-                            name="fullName"
-                            value={formData.fullName}
-                            onChange={handleChange}
-                            placeholder="Full Name"
-                            className="w-full p-3 border border-gray-300 rounded-lg"
-                            required
-                        />
-                    )}
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear field error when user starts typing
+    if (formErrors[name]) {
+      setFormErrors(prev => ({ ...prev, [name]: "" }));
+    }
+    
+    if (error) dispatch(clearError());
+  };
 
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Email"
-                        className="w-full p-3 border border-gray-300 rounded-lg"
-                        required
-                    />
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    dispatch(loginUser(formData));
+  };
 
-                    {isForgot ? (
-                        <>
-                            <input
-                                type="text"
-                                name="otp"
-                                value={formData.otp}
-                                onChange={handleChange}
-                                placeholder="Enter OTP"
-                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                required
-                            />
-                            <input
-                                type="password"
-                                name="newPassword"
-                                value={formData.newPassword}
-                                onChange={handleChange}
-                                placeholder="Enter New Password"
-                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                required
-                            />
-                        </>
-                    ) : (
-                        <>
-                            {!isLogin && (
-                                <>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        placeholder="Password"
-                                        className="w-full p-3 border border-gray-300 rounded-lg"
-                                        required
-                                    />
-                                    <input
-                                        type="password"
-                                        name="confirmPassword"
-                                        value={formData.confirmPassword}
-                                        onChange={handleChange}
-                                        placeholder="Confirm Password"
-                                        className="w-full p-3 border border-gray-300 rounded-lg"
-                                        required
-                                    />
-                                </>
-                            )}
-
-                            {isLogin && (
-                                <input
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder="Password"
-                                    className="w-full p-3 border border-gray-300 rounded-lg"
-                                    required
-                                />
-                            )}
-
-                            {!isLogin && (
-                                <>
-                                    <div className="mb-1">
-                                        <select
-                                            name="role"
-                                            value={role}
-                                            onChange={(e) => setRole(e.target.value)}
-                                            className="w-full p-3 border border-gray-300 rounded-lg mb-4"
-                                        >
-                                            <option value="Employer">Employer</option>
-                                            <option value="Job Seeker">Job Seeker</option>
-                                        </select>
-                                    </div>
-
-                                    {role === "Employer" && (
-                                        <>
-                                            <input
-                                                type="text"
-                                                name="companyName"
-                                                value={formData.companyName}
-                                                onChange={handleChange}
-                                                placeholder="Company Name"
-                                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="companyWebsite"
-                                                value={formData.companyWebsite}
-                                                onChange={handleChange}
-                                                placeholder="Company Website"
-                                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="companyAddress"
-                                                value={formData.companyAddress}
-                                                onChange={handleChange}
-                                                placeholder="Company Address"
-                                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                            />
-                                        </>
-                                    )}
-                                    {role === "Job Seeker" && (
-                                        <>
-                                            <input
-                                                type="text"
-                                                name="phone"
-                                                value={formData.phone}
-                                                onChange={handleChange}
-                                                placeholder="Phone"
-                                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="city"
-                                                value={formData.city}
-                                                onChange={handleChange}
-                                                placeholder="City"
-                                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                            />
-                                            <input
-                                                type="text"
-                                                name="skills"
-                                                value={formData.skills}
-                                                onChange={handleChange}
-                                                placeholder="Skills"
-                                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                            />
-                                            <input
-                                                type="file"
-                                                name="resume"
-                                                onChange={handleChange}
-                                                className="w-full p-3 border border-gray-300 rounded-lg"
-                                            />
-                                        </>
-                                    )}
-                                </>
-                            )}
-                        </>
-                    )}
-
-                    <button
-                        type="submit"
-                        className="w-full bg-[#1A4767] text-white py-3 rounded-lg font-semibold transition-colors"
-                    >
-                        {isForgot
-                            ? "Reset Password"
-                            : isLogin
-                                ? "Login"
-                                : "Register"}
-                    </button>
-                </form>
-
-                <p className="text-center text-gray-600 mt-4">
-                    {isForgot
-                        ? "Remember your password?"
-                        : isLogin
-                            ? "Don't have an account?"
-                            : "Already have an account?"}{" "}
-                    <span
-                        onClick={() =>
-                            isForgot ? setIsForgot(false) : setIsLogin(!isLogin)
-                        }
-                        className="text-[#1A4767] font-semibold cursor-pointer"
-                    >
-                        {isForgot ? "Login" : isLogin ? "Register" : "Login"}
-                    </span>
-                </p>
-
-                {isLogin && !isForgot && (
-                    <p
-                        onClick={() => setIsForgot(true)}
-                        className="text-center text-blue-500 font-semibold cursor-pointer mt-2"
-                    >
-                        Forgot Password?
-                    </p>
-                )}
-            </div>
+  return (
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 flex items-center justify-center px-4 py-12">
+      <div className="max-w-md w-full">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
+          <p className="text-gray-600 mt-2">Sign in to your account to continue</p>
         </div>
-    );
-};
 
-export default AuthPage;
+        {/* Login Card */}
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+              <div className="flex items-center">
+                <svg className="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+                <p className="text-sm text-red-700 font-medium">{error}</p>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#1A4767] focus:border-transparent transition ${
+                  formErrors.email ? "border-red-500 bg-red-50" : "border-gray-300"
+                }`}
+                placeholder="Enter your email"
+              />
+              {formErrors.email && isSubmitted && (
+                <p className="mt-2 text-sm text-red-600">{formErrors.email}</p>
+              )}
+            </div>
+
+            {/* Password Field */}
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <label className="block text-sm font-semibold text-gray-700">
+                  Password
+                </label>
+                <Link 
+                  href="/forgot-password" 
+                  className="text-sm text-[#1A4767] hover:text-blue-800 font-medium"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+              <input
+                type="password"
+                name="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#1A4767] focus:border-transparent transition ${
+                  formErrors.password ? "border-red-500 bg-red-50" : "border-gray-300"
+                }`}
+                placeholder="Enter your password"
+              />
+              {formErrors.password && isSubmitted && (
+                <p className="mt-2 text-sm text-red-600">{formErrors.password}</p>
+              )}
+            </div>
+
+            {/* Remember Me Checkbox (Optional) */}
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="remember"
+                className="h-4 w-4 text-[#1A4767] focus:ring-[#1A4767] border-gray-300 rounded"
+              />
+              <label htmlFor="remember" className="ml-2 text-sm text-gray-700">
+                Remember me
+              </label>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full py-3 px-4 rounded-lg text-white font-semibold transition duration-200 ${
+                loading
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-[#1A4767] hover:bg-blue-700 shadow-md hover:shadow-lg"
+              }`}
+            >
+              <div className="flex items-center justify-center">
+                {loading ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Signing in...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </div>
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="my-8 flex items-center">
+            <div className="grow border-t border-gray-300"></div>
+            <span className="mx-4 text-sm text-gray-500">Or continue with</span>
+            <div className="grow border-t border-gray-300"></div>
+          </div>
+
+          {/* Social Login (Optional) */}
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              type="button"
+              className="py-3 px-4 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition"
+            >
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              <span className="text-sm font-medium">Google</span>
+            </button>
+            <button
+              type="button"
+              className="py-3 px-4 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition"
+            >
+              <svg className="w-5 h-5 mr-2" fill="#1877F2" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+              <span className="text-sm font-medium">Facebook</span>
+            </button>
+          </div>
+
+          {/* Sign Up Link */}
+          <p className="mt-8 text-center text-gray-600">
+            Don't have an account?{" "}
+            <Link 
+              href="/auth/register" 
+              className="text-[#1A4767] hover:text-blue-800 font-semibold"
+            >
+              Sign up now
+            </Link>
+          </p>
+        </div>
+
+        {/* Footer */}
+        <p className="mt-8 text-center text-sm text-gray-500">
+          By signing in, you agree to our{" "}
+          <Link href="/terms" className="text-[#1A4767] hover:text-blue-800">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link href="/privacy" className="text-[#1A4767] hover:text-blue-800">
+            Privacy Policy
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}

@@ -2,10 +2,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from '@/assets/images/logo.png'
-import { FaBars, FaHome } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import AuthPage from "@/app/auth/page";
-
+import { loginUser } from "@/redux/features/auth/authSlice";
 
 const Navbar = () => {
     const [role, setRole] = useState("admin")
@@ -24,15 +23,17 @@ const Navbar = () => {
         setRole(newRole);
         localStorage.setItem("role", newRole);
     })
+
+
     const menusForGuest = [
         { title: "Home", link: "/" },
         { title: "Jobs", link: "/jobs" },
         { title: "About", link: "/guest/about" },
         { title: "Contact Us", link: "/guest/contact-us" },
-        { title: "Create Account", link: "/auth" },
+        { title: "Login", link: "/auth/login" },
+        { title: "Register", link: "/auth/register" },
     ]
     const menusForJobSeeker = [
-        { title: "Home", link: "/" },
         { title: "Jobs", link: "/jobs" },
         { title: "My Jobs", link: "/jobseeker/myjobs/saved" },
         { title: "Messages", link: "/jobseeker/messages" },

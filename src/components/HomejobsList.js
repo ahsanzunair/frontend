@@ -18,7 +18,7 @@ const HomejobsList = () => {
                                 <div className="w-full flex sm:flex-row flex-col gap-3 justify-between items-center bg-white shadow-md m-2 p-6 rounded-md">
                                     <div className="flex gap-5 items-center">
                                         <div >
-                                            <Image src={companyProfileImg} className="w-24 h-24 rounded-full" />
+                                            <Image src={companyProfileImg} className="w-24 h-24 rounded-full" alt="not found" />
                                         </div>
                                         <div>
                                             <h1 className="text-xl md:text-2xl font-bold text-[#1A4767]">{job.title}</h1>
