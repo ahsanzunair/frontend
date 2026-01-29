@@ -1,9 +1,26 @@
 'use client'
+import { useJobStore } from "@/store/jobStore"
+import { formatDistanceToNow } from "date-fns"
 import { useRouter } from "next/navigation"
 
 
-const JobCard = ({job}) => {
+const JobCard = ({job, compact=false, showActions=true}) => {
+
   const router = useRouter()
+  const {saveJob, unsaveJob, isJobSaved} = useJobStore();
+  const isSaved = isJobSaved(job.id);
+
+  const handleSaveClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isSaved){
+      unsaveJob(job.id);
+    } else{
+      saveJob(job);
+    }
+  };
+
   return (
     <div
       key={job.id} property={job}
@@ -12,7 +29,7 @@ const JobCard = ({job}) => {
       {/* Job Header */}
       <div className="bg-linear-to-br from-[#1A4767] to-[#1A4767] p-6 relative">
         <div className="absolute top-4 right-4 bg-white/15 px-3 py-1.5 rounded-full text-xs font-semibold text-white backdrop-blur-sm">
-          {job.jobType}
+          {job.employement_type}
         </div>
 
         <h2 className="text-white text-lg md:text-xl font-bold mb-1.5 wrap-break-words leading-snug">
@@ -41,7 +58,7 @@ const JobCard = ({job}) => {
               <span>💼</span>
               Type
             </div>
-            <div className="text-slate-800 text-sm font-semibold">{job.jobType}</div>
+            <div className="text-slate-800 text-sm font-semibold">{job.job_type}</div>
           </div>
         </div>
 
@@ -51,7 +68,7 @@ const JobCard = ({job}) => {
               <span>💰</span>
               Monthly Salary
             </div>
-            <div className="text-emerald-500 text-lg md:text-xl font-bold">{job.salary}</div>
+            <div className="text-emerald-500 zztext-lg md:text-xl font-bold">{job.salary_range}</div>
           </div>
 
           <div className="text-xs text-[#1A4767] bg-blue-100 px-3 py-1.5 rounded font-semibold">
@@ -63,7 +80,7 @@ const JobCard = ({job}) => {
       {/* Action Buttons */}
       <div className="p-6 flex gap-3 border-t border-gray-100">
         <button
-          onClick={() => router.push(`/jobs/job-details/${job.slug}`)}
+          onClick={() => router.push(`/jobs/job-details/${job.slug || job.id}`)}
           className="flex-1 bg-linear-to-br from-[#1A4767] to-[#0f374d] text-white px-4 py-3.5 border-none rounded-lg text-sm font-semibold cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
         >
           <span>👁️</span>

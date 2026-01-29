@@ -4,11 +4,14 @@ import Image from "next/image";
 import logo from '@/assets/images/logo.png'
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { loginUser } from "@/redux/features/auth/authSlice";
+import { useSelector } from "react-redux"
 
 const Navbar = () => {
-    const [role, setRole] = useState("admin")
+    const [role, setRole] = useState("jobseeker")
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
+
 
 
     useEffect(() => {
@@ -66,6 +69,7 @@ const Navbar = () => {
 
     return (
         <nav className='sticky top-0 w-full bg-white shadow-md z-20'>
+
             <div className='max-w-6xl h-20 mx-8 md:mx-auto flex items-center justify-between py-4'>
                 {/* logo */}
                 <Link href={'/'} className='md:flex none gap-5 items-center justify-center'>
@@ -82,6 +86,14 @@ const Navbar = () => {
                         ))}
                     </ul>
                 </div>
+                {/* {session ? (
+                    <div>
+                        <Link href="/auth/login">Login</Link>
+                        <Link href="/auth/register">Register</Link>
+                    </div>
+                ) : (
+                    <button>Logout</button>
+                )} */}
                 <div className="flex gap-3 justify-center items-center py-5">
                     <div className="flex flext-col items-center">
                         <select

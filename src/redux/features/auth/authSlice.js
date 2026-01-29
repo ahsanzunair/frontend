@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { refresh } from "next/cache";
+import { act } from "react";
 
 /* ================= LOGIN ================= */
 export const loginUser = createAsyncThunk(
@@ -21,7 +23,11 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("accessToken", data.access);
       localStorage.setItem("refreshToken", data.refresh);
 
-      return data; // contains user + redirect_to
+      return {
+        user: {username:data.username, role: data.role},
+        access:data.access,
+        refresh:data.refresh,
+      };
     } catch (err) {
       return rejectWithValue(err.message || "Network error");
     }
@@ -66,6 +72,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
+    role:null,
+    access:null,
+    refresh:null,
+    isAuthenticated:null,
     redirectTo: null,
     loading: false,
     error: null,
@@ -74,6 +84,10 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
+      state.role = null;
+      state.access = null;
+      state.refresh = null;
+      state.isAuthenticated = null;
       state.redirectTo = "/auth/login";
       state.registerSuccess = false;
       localStorage.clear();
@@ -98,6 +112,10 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.role = action.payload.role;
+        state.access = action.payload.access
+        state.refresh = action.payload.refresh
+        state.isAuthenticated = true
         state.redirectTo = action.payload.redirect_to;
       })
       .addCase(loginUser.rejected, (state, action) => {
