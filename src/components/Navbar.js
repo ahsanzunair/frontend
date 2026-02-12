@@ -4,28 +4,29 @@ import Image from "next/image";
 import logo from '@/assets/images/logo.png'
 import { FaBars } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { loadUserFromStorage, logout } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next/navigation";
+
 
 const Navbar = () => {
-    const [role, setRole] = useState("jobseeker")
+    const router = useRouter();
+    const dispatch = useDispatch();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-    const { user, isAuthenticated } = useSelector((state) => state.auth);
+    const { user, role, isAuthenticated } = useSelector((state) => state.auth);
 
 
 
     useEffect(() => {
-        const savedRole = localStorage.getItem("role")
-        if (savedRole) {
-            setRole(savedRole)
-        }
-    }, [])
+        dispatch(loadUserFromStorage());
+    }, [dispatch])
 
-    const handleRoleChange = ((e) => {
-        const newRole = e.target.value;
-        setRole(newRole);
-        localStorage.setItem("role", newRole);
-    })
+    // const handleRoleChange = ((e) => {
+    //     const newRole = e.target.value;
+    //     setRole(newRole);
+    //     localStorage.setItem("role", newRole);
+    // })
 
 
     const menusForGuest = [
@@ -33,8 +34,6 @@ const Navbar = () => {
         { title: "Jobs", link: "/jobs" },
         { title: "About", link: "/guest/about" },
         { title: "Contact Us", link: "/guest/contact-us" },
-        { title: "Login", link: "/auth/login" },
-        { title: "Register", link: "/auth/register" },
     ]
     const menusForJobSeeker = [
         { title: "Jobs", link: "/jobs" },
@@ -60,12 +59,25 @@ const Navbar = () => {
         { title: "Account", link: "/admin/account" }
     ]
 
-    let menus = []
+    const handleLogout = () => {
+        dispatch(logout());
+        window.location.href = "/auth/login";
+    }
 
-    if (role === "guest") menus = menusForGuest
-    if (role === "jobseeker") menus = menusForJobSeeker
-    if (role === "employer") menus = menusForEmployer
-    if (role === "admin") menus = menusForAdmin
+    let menus = [];
+    let currentRole = role;
+
+    if (!isAuthenticated || !role) {
+
+        menus = menusForGuest;
+        currentRole = "guest";
+    } else if (role == "jobseeker") {
+        menus = menusForJobSeeker
+    } else if (role === "employer") {
+        menus = menusForEmployer
+    } else if (role === "admin") {
+        menus = menusForAdmin
+    }
 
     return (
         <nav className='sticky top-0 w-full bg-white shadow-md z-20'>
@@ -86,28 +98,45 @@ const Navbar = () => {
                         ))}
                     </ul>
                 </div>
-                {/* {session ? (
-                    <div>
-                        <Link href="/auth/login">Login</Link>
-                        <Link href="/auth/register">Register</Link>
+                <div className="md:flex hidden items-center justify-center gap-2">
+                    <div className="flex gap-3 justify-center items-center py-5">
+                        {isAuthenticated ? (
+                            <div className="flex flex-col items-end">
+                                <span className="text-sm font-semibold text-gray-700">
+                                    {user?.first_name} {user?.last_name}
+                                </span>
+                                <span className="text-xs px-2 py-1 rounded-full bg-[#1A4767] text-white">
+                                    {role?.toUpperCase()}
+                                </span>
+                            </div>
+                        ) : (
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => router.push("/auth/login")}
+                                    className="text-gray-900 hover:bg-[#1A4767] hover:text-white hover:p-2 hover:rounded-lg hover:font-bold transition-all transform duration-300 font-medium"
+                                >
+                                    Login</button>
+                                <button
+                                    onClick={() => router.push("/auth/register")}
+                                    className="text-gray-900 hover:bg-[#1A4767] hover:text-white hover:p-2 hover:rounded-lg hover:font-bold transition-all transform duration-300 font-medium"
+                                >
+                                    Register</button>
+                            </div>
+                        )}
                     </div>
-                ) : (
-                    <button>Logout</button>
-                )} */}
-                <div className="flex gap-3 justify-center items-center py-5">
-                    <div className="flex flext-col items-center">
-                        <select
-                            value={role}
-                            onChange={handleRoleChange}
-                            className="p-2 rounded-lg bg-[#1A4767] text-white font-semibold"
+
+                    {isAuthenticated && (
+
+                        <button
+                            onClick={handleLogout}
+                            className="text-gray-900 hover:bg-red-600 hover:text-white hover:p-2 hover:rounded-lg hover:font-bold transition-all transform duration-300 font-medium px-4"
                         >
-                            <option value="guest">Guest</option>
-                            <option value="jobseeker">Job Seeker</option>
-                            <option value="employer">Epmloyer</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
+                            Logout
+                        </button>
+
+                    )}
                 </div>
+
                 <div onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className='cursor-pointer text-2xl md:hidden'>
                     <FaBars />
                 </div>
@@ -146,7 +175,47 @@ const Navbar = () => {
                                 </Link>
                             </li>
                         ))}
+                        <div className="flex flex-col items-center justify-center gap-2">
+                            <div className="flex gap-3 justify-center items-center py-5">
+                                {isAuthenticated ? (
+                                    <div className="flex flex-col items-end">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                            {user?.first_name} {user?.last_name}
+                                        </span>
+                                        <span className="text-xs px-2 py-1 rounded-full bg-[#1A4767] text-white">
+                                            {role?.toUpperCase()}
+                                        </span>
+                                    </div>
+                                ) : 
+                                (
+                                    <div className="flex flex-col gap-3">
+                                        <button
+                                            onClick={() => router.push("/auth/login")}
+                                            className="text-gray-900 hover:bg-[#1A4767] hover:text-white hover:p-2 hover:rounded-lg hover:font-bold transition-all transform duration-300 font-medium"
+                                        >
+                                            Login</button>
+                                        <button
+                                            onClick={() => router.push("/auth/register")}
+                                            className="text-gray-900 hover:bg-[#1A4767] hover:text-white hover:p-2 hover:rounded-lg hover:font-bold transition-all transform duration-300 font-medium"
+                                        >
+                                            Register</button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {isAuthenticated && (
+
+                                <button
+                                    onClick={handleLogout}
+                                    className="text-gray-900 hover:bg-red-600 hover:text-white hover:p-2 hover:rounded-lg hover:font-bold transition-all transform duration-300 font-medium px-4"
+                                >
+                                    Logout
+                                </button>
+
+                            )}
+                        </div>
                     </ul>
+
                 </div>
             </div>
         </nav>

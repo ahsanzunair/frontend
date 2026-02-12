@@ -65,7 +65,7 @@ class ApiClient {
     }
     getAuthToken() {
         if (typeof window !== "undefined") {
-            return localStorage.getItem("access_token");
+            return localStorage.getItem("accessToken");
         }
         return null;
     }
@@ -90,8 +90,7 @@ class ApiClient {
 
     async put(url, data, config) {
         const response = await this.client.put(url, data, config);
-        return response.data
-    }
+        return response.data   }
 
     async patch(url, data, config) {
         const response = this.client.patch(url, data, config);

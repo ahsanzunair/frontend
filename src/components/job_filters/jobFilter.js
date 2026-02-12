@@ -1,9 +1,7 @@
-"use clients"
-import { useJobs } from "@/hooks/useJobs"
-import { useState } from "react"
+import { useJobs } from '@/hooks/useJobs'
+import { useState } from 'react'
 
-
-const jobFilters = () => {
+const JobFilter = ({ filteredJobs, jobs, locationFilter, salarySort }) => {
     const { filters, updateFilters, clearFilters } = useJobs()
     const [localFilters, setLocalFilters] = useState({
         job_type: filters.job_type || "",
@@ -174,4 +172,4 @@ const jobFilters = () => {
     )
 }
 
-export default jobFilters;
+export default JobFilter

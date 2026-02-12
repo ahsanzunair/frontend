@@ -1,11 +1,12 @@
 'use client'
-import { jobs } from "@/app/data/jobs"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import companyProfileImg from "@/assets/images/hero/professional.jpg"
+import { useJobs } from "@/hooks/useJobs"
 
 const HomejobsList = () => {
     const router = useRouter()
+    const {jobs} = useJobs()
 
     return (
         <>

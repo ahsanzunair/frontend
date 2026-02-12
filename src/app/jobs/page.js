@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import JobCard from "@/components/JobCard"
 import { useJobs } from "@/hooks/useJobs"
 import { Loader2, Search, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
-import jobFilters from "@/components/job_filters/jobFilter"
+import JobFilter from "@/components/job_filters/JobFilter"
 
 const JobsPage = () => {
   const router = useRouter()
@@ -86,7 +86,7 @@ const JobsPage = () => {
 
         {/* Search and Filter Section */}
         <div className="lg:col-span-1">
-          <jobFilters />
+          <JobFilter filteredJobs={filteredJobs} jobs={jobs} locationFilter={locationFilter} salarySort={salarySort} />
         </div>
 
         {loading && (
